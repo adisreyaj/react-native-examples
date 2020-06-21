@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -43,13 +43,14 @@ const Payment = () => {
       <View
         style={{
           position: 'absolute',
-          bottom: 50,
+          bottom: 0,
           alignItems: 'center',
           width: '100%',
           backgroundColor: '#fff',
           paddingTop: 32,
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
+          paddingBottom: 60,
         }}
       >
         <View
@@ -58,7 +59,7 @@ const Payment = () => {
             justifyContent: 'space-between',
             width: '90%',
             alignItems: 'center',
-            marginBottom: 42,
+            paddingBottom: 42,
           }}
         >
           <Text style={[human.headline, { color: '#a8a8a8' }]}>

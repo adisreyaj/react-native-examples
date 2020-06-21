@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Animated } from 'react-native';
+import React from 'react';
+import { View, Image, StyleSheet, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { cardGradients } from '../../../config/colors.config';
 import CreditCardHeader from './CreditCardHeader';
