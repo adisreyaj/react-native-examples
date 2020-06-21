@@ -6,7 +6,7 @@ import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 
 import SCREENS from './config/screens.config';
-import Payment from './screens/Payment/Payment';
+import Payment from './screens/Payment/Payments/Payment';
 
 const Stack = createStackNavigator();
 export default function App() {

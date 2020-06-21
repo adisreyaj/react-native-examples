@@ -15,3 +15,9 @@ export const cardGradients = [
     end: [1, 1],
   },
 ];
+
+export const theme = {
+  primary: '#3d6cb9',
+  accent: '#00d1ff',
+  background: '#f1f1f1',
+};
