@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,17 +8,45 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
+import { human } from 'react-native-typography';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import Animated, { Easing, Extrapolate } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
 
 import Contianer from '../../../components/hoc/Contianer';
 import { creditCards } from '../../../data/creditcards';
 import CreditCardContainer from '../CreditCardContainer';
 import PaymentsHeader from './PaymentsHeader';
 import { theme } from '../../../config/colors.config';
-import { human } from 'react-native-typography';
 
 const Payment = () => {
-  const [selection, setSelection] = useState(0);
+  const [selection, setSelection] = useState(-1);
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+
+  const transY = useRef(new Animated.Value(0)).current;
   const changeSelection = (selection) => setSelection(selection);
+
+  const handleGestureEvent = Animated.event([
+    { nativeEvent: { translationY: transY } },
+  ]);
+  const bottomSheet = Animated.interpolate(transY, {
+    inputRange: [-250, 0],
+    outputRange: [0, 280],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  const handleStateChange = (e) => {
+    const { oldState, translationY } = e.nativeEvent;
+    if (oldState === State.ACTIVE) {
+      Animated.timing(transY, {
+        toValue: translationY < 0 ? -250 : 0,
+        duration: 400,
+        easing: Easing.bezier(0.34, 1.2, 0.87, 0.97),
+      }).start();
+      setBottomSheetOpen(() => translationY < 0);
+    }
+  };
+
   return (
     <View
       style={{
@@ -40,48 +68,87 @@ const Payment = () => {
           </View>
         </Contianer>
       </ScrollView>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          alignItems: 'center',
-          width: '100%',
-          backgroundColor: '#fff',
-          paddingTop: 32,
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
-          paddingBottom: 60,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '90%',
-            alignItems: 'center',
-            paddingBottom: 42,
-          }}
+      <PanGestureHandler onHandlerStateChange={handleStateChange}>
+        <Animated.View
+          style={[
+            styles.bottomSheet,
+            {
+              transform: [
+                {
+                  translateY: bottomSheet,
+                },
+              ],
+            },
+          ]}
         >
-          <Text style={[human.headline, { color: '#a8a8a8' }]}>
-            Total Price
-          </Text>
-          <Text style={[human.title1, { fontWeight: '700', color: '#09272E' }]}>
-            $725.45
-          </Text>
-        </View>
-        <TouchableHighlight
-          style={styles.paymentButton}
-          activeOpacity={0.8}
-          onPress={() => {}}
-        >
-          <Text style={human.title3White}>Confirm Payment</Text>
-        </TouchableHighlight>
-      </View>
+          <View style={styles.bottomSheetContent}>
+            <Text style={[human.headline, { color: '#a8a8a8' }]}>
+              Total Price
+            </Text>
+            <View
+              style={{
+                alignItems: 'center',
+                marginTop: -80,
+                backgroundColor: '#fff',
+                width: 60,
+                height: 60,
+                borderRadius: 60,
+                paddingTop: 8,
+              }}
+            >
+              <Ionicons
+                style={{
+                  transform: [
+                    {
+                      rotate: '0deg',
+                    },
+                  ],
+                }}
+                name={bottomSheetOpen ? 'ios-arrow-down' : 'ios-arrow-up'}
+                size={24}
+                color="black"
+              />
+              <Text>Swipe</Text>
+            </View>
+            <Text
+              style={[human.title1, { fontWeight: '700', color: '#09272E' }]}
+            >
+              $725.45
+            </Text>
+          </View>
+          <TouchableHighlight
+            style={styles.paymentButton}
+            activeOpacity={0.8}
+            onPress={() => {}}
+          >
+            <Text style={human.title3White}>Confirm Payment</Text>
+          </TouchableHighlight>
+        </Animated.View>
+      </PanGestureHandler>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomSheet: {
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center',
+    width: '100%',
+    height: 500,
+    backgroundColor: '#fff',
+    paddingTop: 32,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingBottom: 60,
+  },
+  bottomSheetContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    alignItems: 'center',
+    paddingBottom: 42,
+  },
   paymentButton: {
     width: '90%',
     alignItems: 'center',
