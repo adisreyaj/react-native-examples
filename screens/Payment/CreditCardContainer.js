@@ -1,30 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { human } from 'react-native-typography';
+import Animated, { Easing } from 'react-native-reanimated';
 
 import CreditCard from './CreditCard/CreditCard';
 import RadioButton from '../../components/ui/RadioButton';
-import { theme } from '../../config/colors.config';
 
 const CreditCardContainer = (props) => {
-  const [selected, setSelected] = useState(props.selected);
   const opacity = new Animated.Value(0);
   const height = new Animated.Value(0);
   const translateY = opacity.interpolate({
     inputRange: [0, 1],
     outputRange: [-60, 0],
-    // extrapolate: 'clamp',
+    extrapolate: 'clamp',
   });
 
+  const heightAnimation = Animated.interpolate(height, {
+    inputRange: [0, 1],
+    outputRange: [0, 300],
+  });
+
+  const opacityAnimation = Animated.interpolate(opacity, {
+    inputRange: [0, 0.4, 1],
+    outputRange: [0, 0, 1],
+  });
   useEffect(() => {
     Animated.timing(opacity, {
       toValue: props.selected ? 1 : 0,
-      duration: 1000,
+      duration: 1200,
+      easing: Easing.bezier(0.23, 0.67, 0.75, 0.94),
     }).start();
 
     Animated.timing(height, {
       toValue: props.selected ? 1 : 0,
-      duration: 600,
+      duration: 800,
+      easing: Easing.bezier(0.47, 0.53, 0.37, 0.96),
     }).start();
   }, [props]);
 
@@ -70,14 +80,8 @@ const CreditCardContainer = (props) => {
         <Animated.View
           style={{
             ...styles.creditCardContainer,
-            opacity: opacity.interpolate({
-              inputRange: [0, 0.4, 1],
-              outputRange: [0, 0, 1],
-            }),
-            height: height.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 300],
-            }),
+            opacity: opacityAnimation,
+            height: heightAnimation,
             transform: [{ translateY }],
           }}
         >
