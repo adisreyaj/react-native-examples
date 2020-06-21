@@ -18,6 +18,7 @@ import { creditCards } from '../../../data/creditcards';
 import CreditCardContainer from '../CreditCardContainer';
 import PaymentsHeader from './PaymentsHeader';
 import { theme } from '../../../config/colors.config';
+import RadioButton from '../../../components/ui/RadioButton';
 
 const Payment = () => {
   const [selection, setSelection] = useState(-1);
@@ -116,6 +117,117 @@ const Payment = () => {
               $725.45
             </Text>
           </View>
+          {bottomSheetOpen && (
+            <Animated.View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                marginBottom: 32,
+                transform: [
+                  {
+                    translateY: bottomSheet,
+                  },
+                ],
+              }}
+            >
+              <View style={{ flexDirection: 'row', marginBottom: 24 }}>
+                <View
+                  style={{
+                    backgroundColor: '#f4f4f4',
+                    padding: 12,
+                    margin: 8,
+                    borderColor: theme.primary,
+                    borderWidth: 2,
+                    borderStyle: 'dashed',
+                    borderRadius: 8,
+                    flex: 0.3,
+                    paddingBottom: 16,
+                    paddingTop: 52,
+                  }}
+                >
+                  <View style={{ position: 'absolute', top: 12, left: 12 }}>
+                    <RadioButton selected={true} />
+                  </View>
+                  <Text
+                    style={[
+                      human.title1,
+                      { fontWeight: '700', marginBottom: 4 },
+                    ]}
+                  >
+                    50% off
+                  </Text>
+                  <Text>above $99</Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#f4f4f4',
+                    padding: 12,
+                    margin: 8,
+                    borderColor: theme.primary,
+                    borderWidth: 2,
+                    borderStyle: 'dashed',
+                    borderRadius: 8,
+                    flex: 0.3,
+                    paddingBottom: 16,
+                    paddingTop: 52,
+                  }}
+                >
+                  <View style={{ position: 'absolute', top: 12, left: 12 }}>
+                    <RadioButton />
+                  </View>
+                  <Text
+                    style={[
+                      human.title1,
+                      { fontWeight: '700', marginBottom: 4 },
+                    ]}
+                  >
+                    $5 off
+                  </Text>
+                  <Text>above $35</Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#f4f4f4',
+                    padding: 12,
+                    margin: 8,
+                    borderColor: theme.primary,
+                    borderWidth: 2,
+                    borderStyle: 'dashed',
+                    borderRadius: 8,
+                    flex: 0.3,
+                    paddingBottom: 16,
+                    paddingTop: 52,
+                  }}
+                >
+                  <View style={{ position: 'absolute', top: 12, left: 12 }}>
+                    <RadioButton />
+                  </View>
+                  <Text
+                    style={[
+                      human.title1,
+                      { fontWeight: '700', marginBottom: 4 },
+                    ]}
+                  >
+                    20% off
+                  </Text>
+                  <Text>above $19</Text>
+                </View>
+              </View>
+              <TouchableHighlight
+                style={[
+                  styles.paymentButton,
+                  {
+                    backgroundColor: '#fff',
+                    elevation: 0,
+                  },
+                ]}
+                activeOpacity={0.8}
+                onPress={() => {}}
+              >
+                <Text style={human.title3}>Apply Coupon</Text>
+              </TouchableHighlight>
+            </Animated.View>
+          )}
           <TouchableHighlight
             style={styles.paymentButton}
             activeOpacity={0.8}
@@ -141,6 +253,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     paddingBottom: 60,
+    elevation: 20,
   },
   bottomSheetContent: {
     flexDirection: 'row',
@@ -156,6 +269,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 15,
     paddingVertical: 20,
+    borderColor: theme.primary,
+    borderWidth: 2,
   },
 });
 export default Payment;

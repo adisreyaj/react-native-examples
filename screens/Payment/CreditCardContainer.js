@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreditCardContainer;
+export default React.memo(CreditCardContainer);
