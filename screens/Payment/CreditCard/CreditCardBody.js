@@ -5,8 +5,9 @@ import { human } from 'react-native-typography';
 const CreditCardBody = ({ cardNumber }) => {
   return (
     <View style={styles.creditCardBody}>
-      {cardNumber.map((item) => (
+      {cardNumber.map((item, i) => (
         <Text
+          key={i}
           style={[
             human.title1White,
             { fontWeight: '500', fontSize: 24, ...styles.creditCardFont },

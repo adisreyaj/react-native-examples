@@ -7,7 +7,12 @@ import { AppLoading } from 'expo';
 
 import SCREENS from './config/screens.config';
 import Payment from './screens/Payment/Payments/Payment';
+import { init } from './data/db';
+import Expenses from './Expenses';
 
+init()
+  .then(() => console.log('Database Initialized'))
+  .catch(console.log);
 const Stack = createStackNavigator();
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -18,10 +23,14 @@ export default function App() {
   else
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={SCREENS.payment} headerMode="none">
+        <Stack.Navigator initialRouteName={SCREENS.expenses} headerMode="none">
           <Stack.Screen
             name={SCREENS.payment}
             component={Payment}
+          ></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.expenses}
+            component={Expenses}
           ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

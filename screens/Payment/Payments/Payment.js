@@ -60,6 +60,7 @@ const Payment = () => {
           <View>
             {creditCards.map((item, i) => (
               <TouchableOpacity
+                key={i}
                 onPress={() => changeSelection(i)}
                 activeOpacity={0.9}
               >
