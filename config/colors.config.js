@@ -21,3 +21,23 @@ export const theme = {
   accent: '#00d1ff',
   background: '#f1f1f1',
 };
+
+export const theme2 = {
+  primary: '#575CD8',
+  primaryLight: '#5097E3',
+  secondary: '#5EDCAE',
+  secondaryLight: '#82EC84',
+};
+
+export const expensesPageGradients = [
+  {
+    colors: [theme2.primary, theme2.primaryLight],
+    start: [0, 0],
+    end: [1, 1],
+  },
+  {
+    colors: [theme2.secondary, theme2.secondaryLight],
+    start: [0, 0],
+    end: [1, 1],
+  },
+];

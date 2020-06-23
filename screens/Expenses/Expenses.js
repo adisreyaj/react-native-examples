@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import { addExpense, getExpenses } from './data/db';
+import { addExpense, getExpenses } from '../../data/db';
 
 const Expenses = () => {
   const onAddExpense = () => {
