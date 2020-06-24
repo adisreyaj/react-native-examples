@@ -5,12 +5,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 
-import SCREENS from './config/screens.config';
-import Payment from './screens/Payment/Payments/Payment';
-import { init } from './data/db';
-import Expenses from './screens/Expenses/Expenses';
-import Jobs from './screens/Jobs/Jobs';
-import JobSplash from './screens/Jobs/JobSplash';
+import SCREENS from './src/config/screens.config';
+import Payment from './src/screens/Payment/Payments/Payment';
+import { init } from './src/data/db';
+import Jobs from './src/screens/Jobs/Jobs';
+import JobSplash from './src/screens/Jobs/JobSplash';
+import JobsField from './src/screens/Jobs/JobsField';
 
 init()
   .then(() => console.log('Database Initialized'))
@@ -18,17 +18,17 @@ init()
 const Stack = createStackNavigator();
 export default function App() {
   let [fontsLoaded] = useFonts({
-    'CreditCard': require('./assets/fonts/credit-card/CreditCard.ttf'),
-    'Inter': require('./assets/fonts/Inter-Regular.ttf'),
-    'Inter-SemiBold': require('./assets/fonts/Inter-Medium.ttf'),
-    'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
+    'CreditCard': require('./src/assets/fonts/credit-card/CreditCard.ttf'),
+    'Inter': require('./src/assets/fonts/Inter-Regular.ttf'),
+    'Inter-SemiBold': require('./src/assets/fonts/Inter-Medium.ttf'),
+    'Inter-Bold': require('./src/assets/fonts/Inter-Bold.ttf'),
   });
 
   if (!fontsLoaded) return <AppLoading />;
   else
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={SCREENS.jobSplash} headerMode="none">
+        <Stack.Navigator initialRouteName={SCREENS.jobFields} headerMode="none">
           <Stack.Screen
             name={SCREENS.payment}
             component={Payment}
@@ -38,6 +38,10 @@ export default function App() {
             component={JobSplash}
           ></Stack.Screen>
           <Stack.Screen name={SCREENS.job} component={Jobs}></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.jobFields}
+            component={JobsField}
+          ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     );

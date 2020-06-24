@@ -3,6 +3,7 @@ const SCREENS = {
   expenses: 'EXPENSES',
   job: 'JOB',
   jobSplash: 'JOB_FLASH',
+  jobFields: 'JOB_FIELDS',
 };
 
 export default SCREENS;
