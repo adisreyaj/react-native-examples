@@ -11,6 +11,7 @@ import { init } from './data/db';
 import Expenses from './screens/Expenses/Expenses';
 import Jobs from './screens/Jobs/Jobs';
 import JobSplash from './screens/Jobs/JobSplash';
+import StorageHome from './screens/Storage/StorageHome/StorageHome';
 
 init()
   .then(() => console.log('Database Initialized'))
@@ -28,7 +29,10 @@ export default function App() {
   else
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={SCREENS.jobSplash} headerMode="none">
+        <Stack.Navigator
+          initialRouteName={SCREENS.storageHome}
+          headerMode="none"
+        >
           <Stack.Screen
             name={SCREENS.payment}
             component={Payment}
@@ -38,6 +42,10 @@ export default function App() {
             component={JobSplash}
           ></Stack.Screen>
           <Stack.Screen name={SCREENS.job} component={Jobs}></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.storageHome}
+            component={StorageHome}
+          ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     );
