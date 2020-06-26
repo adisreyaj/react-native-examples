@@ -4,74 +4,58 @@ import {
   Text,
   View,
   Image,
-  ScrollView,
   Animated,
-  Dimensions,
   TouchableOpacity,
   Easing,
   FlatList,
 } from 'react-native';
 import { human } from 'react-native-typography';
 import { storageTheme, driveData } from '../config/config';
-import { LinearGradient } from 'expo-linear-gradient';
-const StorageMyDrives = () => {
+const StorageMyDrives = ({ loadAnimValue }) => {
   const scroller = useRef(undefined);
   const scrollX = new Animated.Value(0);
 
-  const [scrollPosition, setScrollPosition] = useState(undefined);
-  const animation = Animated.timing(scrollX, {
-    toValue: 120,
-    duration: 200,
-  });
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [selected, setSelected] = useState(1);
 
-  useEffect(() => {
-    if (scroller.current && selected)
-      scroller.current.scrollToIndex({
-        index: selected - 1,
-        animted: true,
-        viewOffset: 90,
-      });
-  }, [selected]);
+  useEffect(() => {}, []);
 
+  // Animation to the tapped card with animation
   // useEffect(() => {
-  //   const index = Math.round(scrollPosition / 290);
-  //   if (scrollPosition < 100) setSelected(1);
-  //   else setSelected(index >= driveData.length ? driveData.length : index + 1);
-  // }, [scrollPosition]);
+  //   if (scroller.current && selected)
+  //     scroller.current.scrollToIndex({
+  //       index: selected - 1,
+  //       animted: true,
+  //       viewOffset: 90,
+  //     });
+  // }, [selected]);
+
+  // Animations for scroll position based selection of cards
+  useEffect(() => {
+    const index = Math.round(scrollPosition / 290);
+    if (scrollPosition < 100) setSelected(1);
+    else setSelected(index >= driveData.length ? driveData.length : index + 1);
+  }, [scrollPosition]);
 
   const changeSelection = (id) => setSelected(id);
   return (
     <View style={styles.container}>
-      <View style={{ marginHorizontal: 24 }}>
-        <Text
-          style={[human.title3, styles.inter, { fontWeight: '700', color: storageTheme.textDark }]}
-        >
-          My Storage
-        </Text>
-      </View>
       <FlatList
         style={{ marginTop: 24 }}
         horizontal
         initialScrollIndex={selected}
-        onScrollToIndexFailed={(info) => {
-          const wait = new Promise((resolve) => setTimeout(resolve, 500));
-          wait.then(() => {
-            flatList.current?.scrollToIndex({ index: 1, animated: true });
-          });
-        }}
         onScroll={(e) => setScrollPosition(e.nativeEvent.contentOffset.x)}
         data={driveData}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => `${item.id}`}
         showsHorizontalScrollIndicator={false}
         ref={scroller}
         renderItem={({ item, i }) => (
           <StorageMyDrivesCard
             key={item.id}
             {...item}
-            scrollX={scrollX}
             selected={selected === item.id}
             index={i}
+            loadAnimValue={loadAnimValue}
             select={changeSelection}
           />
         )}
@@ -89,10 +73,11 @@ const StorageMyDrivesCard = ({
   consumed,
   total,
   selected = false,
-  scrollX,
   select,
+  loadAnimValue,
 }) => {
   const transY = useRef(new Animated.Value(0)).current;
+  const progressbarValue = loadAnimValue;
   const animation = Animated.timing(transY, {
     toValue: selected ? 0 : 12,
     duration: 300,
@@ -162,14 +147,17 @@ const StorageMyDrivesCard = ({
                   paddingHorizontal: 5,
                 }}
               >
-                <View
+                <Animated.View
                   style={{
-                    width: `${(consumed / total) * 100}%`,
+                    width: progressbarValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ['0%', `${(consumed / total) * 100}%`],
+                    }),
                     backgroundColor: storageTheme.accent,
                     height: 8,
                     borderRadius: 20,
                   }}
-                ></View>
+                ></Animated.View>
               </View>
             </View>
           </View>
@@ -196,9 +184,7 @@ const StorageMyDrivesCard = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 42,
-  },
+  container: {},
 
   inter: {
     fontFamily: 'Inter',

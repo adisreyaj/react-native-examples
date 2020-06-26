@@ -1,3 +1,6 @@
+import React from 'react';
+import { Entypo } from '@expo/vector-icons';
+
 export const storageTheme = {
   primary: '#36868E',
   accent: '#F3C143',
@@ -19,7 +22,7 @@ export const driveData = [
     id: 2,
     name: 'Dropbox',
     logo: require('../../../assets/storage/dropbox.png'),
-    consumed: 10,
+    consumed: 75,
     total: 100,
     selected: false,
   },
@@ -38,5 +41,32 @@ export const driveData = [
     consumed: 1,
     total: 5,
     selected: false,
+  },
+];
+
+export const folderData = [
+  {
+    id: 1,
+    icon: <Entypo name="folder-images" size={40} color={storageTheme.primary} />,
+    title: 'Images',
+    meta: 'Created 04/2020',
+  },
+  {
+    id: 2,
+    icon: <Entypo name="folder-music" size={40} color={storageTheme.primary} />,
+    title: 'Music',
+    meta: 'Created 02/2020',
+  },
+  {
+    id: 3,
+    icon: <Entypo name="folder-video" size={40} color={storageTheme.primary} />,
+    title: 'Video',
+    meta: 'Created 06/2020',
+  },
+  {
+    id: 4,
+    icon: <Entypo name="folder" size={40} color={storageTheme.primary} />,
+    title: 'Document',
+    meta: 'Created 03/2020',
   },
 ];
